@@ -20,7 +20,7 @@ namespace Inzynieria_oprogramowania_API.Controllers
 		[HttpPost("Register")]
 		public IActionResult Register([FromBody] UserRegisterDTO newUser)
 		{
-			if (projectContext.Users.FirstOrDefault(x => x.Name == newUser.Name) != null || !ModelState.IsValid)
+			if (projectContext.Users.FirstOrDefault(x => x.Name == newUser.Name) != null || projectContext.Users.FirstOrDefault(x=>x.Email == newUser.Email) != null ||!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
@@ -33,7 +33,8 @@ namespace Inzynieria_oprogramowania_API.Controllers
 			projectContext.Users.Add(new User { 
 				Name = newUser.Name, 
 				Password = newUser.Password,
-				Role = "User"
+				Role = "User",
+				Email = newUser.Email
 			});
 			projectContext.SaveChanges();
 			return StatusCode(StatusCodes.Status201Created);
