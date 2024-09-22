@@ -40,10 +40,7 @@ namespace Inzynieria_oprogramowania_API.Database
 
 			// Relacja: Pin -> PostType (wiele Pin do jednego PostType)
 			modelBuilder.Entity<Pin>()
-				.HasOne(p => p.PostType)
-				.WithMany(pt => pt.Pins)
-				.HasForeignKey(p => p.PostTypeId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.HasOne(p => p.PostType);
 
 			// Relacja: Comment -> User (wiele Comment do jednego User)
 			modelBuilder.Entity<Comment>()
