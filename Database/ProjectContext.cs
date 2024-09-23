@@ -25,6 +25,12 @@ namespace Inzynieria_oprogramowania_API.Database
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			// Relacja: Pin -> User (wiele Pin do jednego User)
+			modelBuilder.Entity<User>()
+				   .HasOne(u => u.Option) // Jeden User ma jedną Option
+				   .WithOne() // Jedna Option przypisana do jednego User
+				   .HasForeignKey<User>(u => u.OptionId) // Klucz obcy OptionId w tabeli User
+				   .OnDelete(DeleteBehavior.Cascade); // Kaskadowe usuwanie
+
 			modelBuilder.Entity<Pin>()
 				.HasOne(p => p.User)
 				.WithMany(u => u.Pins)
@@ -55,20 +61,6 @@ namespace Inzynieria_oprogramowania_API.Database
 				.WithMany(p => p.Comments)
 				.HasForeignKey(c => c.PinId)
 				.OnDelete(DeleteBehavior.Cascade);
-
-			// Relacja: Option -> User (wiele User do jednej Option)
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Option)
-				.WithMany(o => o.Users)
-				.HasForeignKey(u => u.OptionId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			// Opcjonalne pole w User -> Option (nullable)
-			modelBuilder.Entity<User>()
-				.HasOne(u => u.Option)
-				.WithMany(o => o.Users)
-				.HasForeignKey(u => u.OptionId)
-				.IsRequired(false);
 
 			// Inne opcje lub indeksy można dodać tutaj
 

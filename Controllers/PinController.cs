@@ -20,9 +20,8 @@ namespace Inzynieria_oprogramowania_API.Controllers
 			var pins = await projectContext.Pins.ToListAsync();
 
 			// Konwersja obrazów z formatu byte[] na base64
-			var pinsWithBase64Images = pins.Select(pin => new
+			var PingetDTO = pins.Select(pin => new
 			{
-				pin.ID,
 				pin.UserId,
 				pin.Longitude,
 				pin.Latitude,
@@ -35,7 +34,7 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				Zdjecia = pin.Zdjecia != null ? Convert.ToBase64String(pin.Zdjecia) : null  // Konwersja na base64
 			});
 
-			return Ok(pinsWithBase64Images);
+			return Ok(PingetDTO);
 		}
 	}
 }

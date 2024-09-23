@@ -3,6 +3,7 @@ using System;
 using Inzynieria_oprogramowania_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Inzynieria_oprogramowania_API.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240922084503_UserModelUpdate")]
+    partial class UserModelUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,15 +87,7 @@ namespace Inzynieria_oprogramowania_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LocationBased")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Sms")
+                    b.Property<string>("OptionName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -216,8 +211,7 @@ namespace Inzynieria_oprogramowania_API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("OptionId")
-                        .IsUnique();
+                    b.HasIndex("OptionId");
 
                     b.ToTable("Users");
                 });
@@ -271,9 +265,9 @@ namespace Inzynieria_oprogramowania_API.Migrations
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.User", b =>
                 {
                     b.HasOne("Inzynieria_oprogramowania_API.Data_Models.Option", "Option")
-                        .WithOne()
-                        .HasForeignKey("Inzynieria_oprogramowania_API.Data_Models.User", "OptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Users")
+                        .HasForeignKey("OptionId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Option");
                 });
@@ -281,6 +275,11 @@ namespace Inzynieria_oprogramowania_API.Migrations
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Category", b =>
                 {
                     b.Navigation("Pins");
+                });
+
+            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Option", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Pin", b =>

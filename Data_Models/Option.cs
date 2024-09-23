@@ -4,7 +4,8 @@
 	{
 		public int ID { get; set; }
 		public int UserId { get; set; }
-		public string OptionName { get; set; } // Assuming "N opcji" is a string option name -> zamienic na N pól z opcjami
-		public ICollection<User> Users{ get; set; } // Navigation property
+		public string Sms { get; set; }
+		public string Email { get; set; }
+		public string LocationBased { get; set; }
 	}
 }

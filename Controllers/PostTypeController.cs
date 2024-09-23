@@ -15,7 +15,11 @@ namespace Inzynieria_oprogramowania_API.Controllers
 		[HttpGet]
 		public IActionResult GetPostyTypes()
 		{
-			return Ok(projectContext.PostTypes);
+			List<string> postTyleList = new List<string>();
+			projectContext.PostTypes.ToList().ForEach(x => 
+				postTyleList.Add(x.Type));
+
+			return Ok(postTyleList);
 		}
 	}
 }
