@@ -3,6 +3,7 @@ using System;
 using Inzynieria_oprogramowania_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Inzynieria_oprogramowania_API.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240924213522_AddVotesCommentTable")]
+    partial class AddVotesCommentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,7 +289,7 @@ namespace Inzynieria_oprogramowania_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("VotesPost");
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Comment", b =>

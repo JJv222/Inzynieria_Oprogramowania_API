@@ -3,6 +3,7 @@ using System;
 using Inzynieria_oprogramowania_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Inzynieria_oprogramowania_API.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240924190811_UserAvatarAndCreateDate")]
+    partial class UserAvatarAndCreateDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,66 +232,6 @@ namespace Inzynieria_oprogramowania_API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.VoteComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("VoteTimestamp")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("VoteType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VotesComment");
-                });
-
-            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.VotePost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PinId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("VoteTimestamp")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("VoteType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PinId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VotesPost");
-                });
-
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Comment", b =>
                 {
                     b.HasOne("Inzynieria_oprogramowania_API.Data_Models.Pin", "Pin")
@@ -345,59 +288,14 @@ namespace Inzynieria_oprogramowania_API.Migrations
                     b.Navigation("Option");
                 });
 
-            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.VoteComment", b =>
-                {
-                    b.HasOne("Inzynieria_oprogramowania_API.Data_Models.Comment", "Comment")
-                        .WithMany("Votes")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Inzynieria_oprogramowania_API.Data_Models.User", "User")
-                        .WithMany("VoteComments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.VotePost", b =>
-                {
-                    b.HasOne("Inzynieria_oprogramowania_API.Data_Models.Pin", "Pin")
-                        .WithMany("Votes")
-                        .HasForeignKey("PinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Inzynieria_oprogramowania_API.Data_Models.User", "User")
-                        .WithMany("Votes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pin");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Category", b =>
                 {
                     b.Navigation("Pins");
                 });
 
-            modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Comment", b =>
-                {
-                    b.Navigation("Votes");
-                });
-
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.Pin", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("Inzynieria_oprogramowania_API.Data_Models.User", b =>
@@ -405,10 +303,6 @@ namespace Inzynieria_oprogramowania_API.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Pins");
-
-                    b.Navigation("VoteComments");
-
-                    b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
         }

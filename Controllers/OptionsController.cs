@@ -32,7 +32,7 @@ namespace Inzynieria_oprogramowania_API.Controllers
 			return Ok(option);
 		}
 
-		[HttpPost]
+		[HttpPut]
 		public IActionResult UpdateOptions([FromHeader] string userName, [FromBody] OptionDTO request)
 		{
 			var user = projectContext.Users.FirstOrDefault(x => x.Username == userName);

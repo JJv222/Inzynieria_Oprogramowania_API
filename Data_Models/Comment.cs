@@ -14,6 +14,6 @@ namespace Inzynieria_oprogramowania_API.Data_Models
 
 		public User User { get; set; } // Navigation property
 		public Pin Pin { get; set; } // Navigation property
-
+		public ICollection<VoteComment> Votes { get; set; }
 	}
 }

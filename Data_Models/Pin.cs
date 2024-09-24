@@ -21,6 +21,7 @@ namespace Inzynieria_oprogramowania_API.Data_Models
 		public ICollection<Comment> Comments { get; set; } // A pin can have many comments
 		public PostType PostType { get; set; } // Navigation property
 		public Category Category { get; set; } // Navigation property
+		public ICollection<VotePost> Votes { get; set; }
 
 	}
 
