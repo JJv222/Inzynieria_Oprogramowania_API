@@ -95,5 +95,16 @@ namespace Inzynieria_oprogramowania_API.Controllers
 			});
 		}
 
+		[HttpGet("GetReputationPoints")]
+		public IActionResult GetReputationPoints([FromHeader] string username)
+		{
+			var user = projectContext.Users.FirstOrDefault(x => x.Username == username);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			return Ok(user.Reputation);
+		}
+
 	}
 }

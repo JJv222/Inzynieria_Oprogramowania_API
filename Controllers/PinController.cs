@@ -37,7 +37,8 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				Description = pin.Description,
 				LikesUp = pin.LikesUp,
 				LikesDown = pin.LikesDown,
-				Zdjecia = pin.Zdjecia != null ? Convert.ToBase64String(pin.Zdjecia) : null
+				Zdjecia = pin.Zdjecia != null ? Convert.ToBase64String(pin.Zdjecia) : null,
+				reputation = pin.User.Reputation
 			};
 
 			return Ok(result);
@@ -73,6 +74,7 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				Description = x.Description,
 				LikesUp = x.LikesUp,
 				LikesDown = x.LikesDown,
+				reputation = x.User.Reputation,
 				Zdjecia = x.Zdjecia != null ? Convert.ToBase64String(x.Zdjecia) : null  // Konwersja na base64, jeśli obrazek istnieje
 			}).ToList();
 

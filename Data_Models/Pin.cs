@@ -15,6 +15,7 @@ namespace Inzynieria_oprogramowania_API.Data_Models
 		public int LikesUp { get; set; }
 		public int LikesDown { get; set; }
 		public byte[] Zdjecia { get; set; } // Store images as byte arrays (Blob)
+		public DateOnly CreatedDate { get; set; }
 
 
 		public User User { get; set; } // Navigation property

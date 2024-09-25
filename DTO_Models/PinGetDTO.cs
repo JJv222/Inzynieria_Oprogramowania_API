@@ -13,5 +13,6 @@
 		public int LikesUp { get; set; }
 		public int LikesDown { get; set; }
 		public string Zdjecia { get; set; } // Store images as byte arrays (Blob)
+		public int reputation { get; set; }
 	}
 }
