@@ -3,6 +3,7 @@ using Inzynieria_oprogramowania_API.Database;
 using Inzynieria_oprogramowania_API.DTO_Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Inzynieria_oprogramowania_API.Controllers
 {
@@ -59,10 +60,10 @@ namespace Inzynieria_oprogramowania_API.Controllers
 			var pins = await projectContext.Pins
 				.Include(p => p.Category)
 				.Include(p => p.User)
-				.Where(p=> p.PostTypeId.Equals(postTypeFounded.ID))
+				.Where(p => p.PostTypeId.Equals(postTypeFounded.ID))
 				.ToListAsync();
 
-			var result = pins.Select(x => new PinGetDTO
+			var result = pins.Select(x => new PinRequestAllDTO
 			{
 				ID = x.ID,
 				Longitude = x.Longitude,
@@ -74,11 +75,61 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				Description = x.Description,
 				LikesUp = x.LikesUp,
 				LikesDown = x.LikesDown,
-				reputation = x.User.Reputation,
-				Zdjecia = x.Zdjecia != null ? Convert.ToBase64String(x.Zdjecia) : null  // Konwersja na base64, jeśli obrazek istnieje
+				reputation = x.User.Reputation
 			}).ToList();
 
 			return Ok(result);
+		}
+
+
+		[HttpPost("AddPin")]
+		public async Task<IActionResult> AddComment([FromBody] PinRequestDTO pinRequest)
+		{
+
+			var userId = await projectContext.Users
+				.Where(u => u.Username.Equals(pinRequest.UserName))
+				.Select(u => u.ID)
+				.FirstOrDefaultAsync();
+			if (userId == null)
+			{
+				return NotFound("User not found.");
+			}
+			var categoryId = await projectContext.Categories
+				.Where(c => c.Type.Equals(pinRequest.Category))
+				.Select(c => c.ID)
+				.FirstOrDefaultAsync();
+			if (categoryId == null)
+			{
+				return NotFound("Category not found.");
+			}
+			var postTypeId = await projectContext.PostTypes
+				.Where(pt => pt.Type.Equals(pinRequest.PostType))
+				.Select(pt => pt.ID)
+				.FirstOrDefaultAsync();
+			if (postTypeId == null)
+			{
+				return NotFound("PostType not found.");
+			}
+			// Dodanie pinu
+			var pin = new Pin
+			{
+				UserId = userId,
+				Longitude = pinRequest.Longitude,
+				Latitude = pinRequest.Latitude,
+				PostTypeId = postTypeId,
+				CategoryId = categoryId,
+				Title = pinRequest.Title,
+				Description = pinRequest.Description,
+				LikesUp = 0,
+				LikesDown = 0,
+				CreatedDate = new DateOnly(),
+				Zdjecia = pinRequest.Zdjecia != null ? Convert.FromBase64String(pinRequest.Zdjecia) : new Byte[64]
+			};
+			projectContext.Pins.Add(pin);
+			projectContext.SaveChanges();
+
+
+			return Ok("Comment added.");
 		}
 
 	}

@@ -65,7 +65,7 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				LikesUp = 0,
 				LikesDown = 0,
 				CreatedDate = new DateOnly(),
-				Zdjecia = commentRequestDTO.Zdjecia != null ? Convert.FromBase64String(commentRequestDTO.Zdjecia) : null
+				Zdjecia = commentRequestDTO.Zdjecia != null ? Convert.FromBase64String(commentRequestDTO.Zdjecia) : new Byte[64]
 			};
 
 			projectContext.Comments.Add(comment);
