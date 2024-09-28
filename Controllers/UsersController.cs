@@ -41,7 +41,9 @@ namespace Inzynieria_oprogramowania_API.Controllers
 				Surname = newUser.Surname,
 				Role = "User",
 				Email = newUser.Email,
-				Reputation = 10
+				Reputation = 10,
+				OptionId = null,
+				Avatar = null
 			});
 			projectContext.SaveChanges();
 

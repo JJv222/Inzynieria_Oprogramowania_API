@@ -14,7 +14,7 @@ namespace Inzynieria_oprogramowania_API.Data_Models
 		public string? Phone { get; set; }
 		public string Password { get; set; } // Assume SHA1 hashed password
 		public string Role { get; set; }
-		public byte[] Avatar { get; set; } // Store images as byte arrays (Blob)
+		public byte[]? Avatar { get; set; } // Store images as byte arrays (Blob)
 		public DateOnly CreatedDate { get; set; } 
 
 		public Option Option { get; set; } // Navigation property
